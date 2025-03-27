@@ -1,28 +1,53 @@
 import React from "react";
-import { Controller } from "react-hook-form";
+import { Field } from "./types";
 
-const DynamicField = ({ index, type, control }: any) => {
+interface DynamicFieldProps {
+    index: number;
+    field: Field;
+    setFields: React.Dispatch<React.SetStateAction<Field[]>>;
+  }
+  
+  const DynamicField: React.FC<DynamicFieldProps> = ({ index, field, setFields }) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = field.type === "checkbox" ? e.target.checked : e.target.value;
+  
+      setFields((prevFields) =>
+        prevFields.map((f, i) => (i === index ? { ...f, value: newValue } : f))
+      );
+    };
+  
     return (
-        <div>
-            <label>Field {index + 1} ({type}): </label>
-            <Controller
-                name={`fields[${index}].value`}
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                    type === "text" ? <input {...field} /> :
-                        type === "dropdown" ? (
-                            <select {...field}>
-                                <option value="">Select</option>
-                                <option value="Option 1">Option 1</option>
-                                <option value="Option 2">Option 2</option>
-                            </select>
-                        ) : <></> // Ensures it always returns a React element
-                )}
-            />
-
-        </div>
+      <div className="field-group">
+        <label>{field.label}</label>
+  
+        {/* Check if field type is 'gender', then render radio buttons */}
+        {field.type === "gender" ? (
+          <div>
+            {["Male", "Female", "Other"].map((option) => (
+              <label key={option}>
+                <input
+                  type="radio"
+                  name={`gender-${field.id}`} // Ensure unique group for gender field
+                  value={option}
+                  checked={field.value === option}
+                  onChange={handleChange}
+                />
+                {option}
+              </label>
+            ))}
+          </div>
+        ) : (
+          // Default input for other fields
+          <input
+            type={field.type}
+            value={field.type !== "checkbox" ? (field.value as string | number | undefined) : undefined}
+            checked={field.type === "checkbox" ? Boolean(field.value) : undefined}
+            onChange={handleChange}
+          />
+        )}
+      </div>
     );
-};
-
-export default DynamicField;
+  };
+  
+  export default DynamicField;
+  
