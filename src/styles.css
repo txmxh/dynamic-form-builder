@@ -1,36 +1,100 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    background-image: linear-gradient(45deg, #3f475b, #00000045);
     margin: 0;
-    padding: 20px;
+  }
+  
+  html, body {
+    overflow-y: auto;
+    height: 100%;
   }
   
   .container {
-    max-width: 600px;
-    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; */
+   
+  }
+
+  .title
+  {
+    font-size: 26px;
+    text-align: center;
+    color: #b7b7b7;
+    font-weight: 700;
+    margin: 0px;
+    line-height: 38px;
+  }
+  
+  .form-box {
     background: white;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(45deg, #3f475b, #13171ee3);
+    margin: 10px;
+  }
+
+  svg {
+    width: 15px;
+    padding-right: 8px;
+}
+
+  .form-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
   
+
   h2 {
     text-align: center;
-    color: #333;
+    color: #b7b7b7;
+    margin-bottom: 30px;
   }
-  
+
+  p strong {
+    color: white;
+    font-weight: 500;
+    width: 130px;
+    /* display: block; */
+}
+
+.submitted-data p {
+  color: #82cece;
+  width: 100%;
+  display: flex;
+}
+    
+form.form {
+  margin-bottom: 40px;
+  margin-top: 40px;
+}
+
   .field-group {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
-  }
+    width: 83%;
+}
   
   label {
     font-weight: bold;
-    width: 120px;
-  }
-  
+    width: 110px;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    margin: 0px;
+    line-height: 26px;
+}
+
+.field-container {
+  display: flex;
+  justify-content: space-between;
+}
+
   input {
     flex: 1;
     padding: 8px;
@@ -43,7 +107,7 @@ body {
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    margin-top: 15px;
+    margin-top: 30px;
   }
   
   .add-btn {
@@ -61,7 +125,7 @@ body {
   }
   
   .remove-btn {
-    background-color: #dc3545;
+    background-image: linear-gradient(270deg, #bb0000, #550000);
     color: white;
     border: none;
     padding: 8px 12px;
@@ -100,4 +164,93 @@ body {
   .toggle-btn:hover {
     background: #006400;
   }
+
+  button {
+    color: white;
+    background-color: #000000;
+    border: 0px;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 500ms ease-in-out;
+}
+
+button:hover {
+  background-color: #1e1e1e;
+  transition: all 500ms ease-in-out;
+}
   
+.form-container {
+  max-height: 80vh; /* Adjust based on your needs */
+  overflow-y: auto;
+}
+
+/* Hide default radio button */
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 12px;
+  height: 12px;
+  border: 2px solid white; /* Default border */
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  background-color: transparent;
+  vertical-align: sub; /* Align properly with text */
+  margin-right: 5px; /* Space between button and label */
+}
+
+/* Custom radio button when checked */
+input[type="radio"]:checked {
+  border-color: black;
+  background-color: black;
+}
+
+input[type="radio"] {
+  padding: 4px;
+}
+
+/* Custom dot inside the radio button */
+input[type="radio"]:checked::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+input[type="radio" i]
+{
+  margin: 3px;
+}
+
+/* Ensure labels and radio buttons are aligned properly */
+.radio-group {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Adjust spacing between radio buttons */
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: white;
+}
+
+.field-group
+div
+{
+  display: flex;
+}

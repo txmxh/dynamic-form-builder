@@ -3,6 +3,7 @@ import DynamicField from "./components/DynamicField";
 import NestedSection from "./components/NestedSection";
 import FormDisplay from "./components/FormDisplay";
 import { Field, Section } from "./components/types";
+import { FaUser, FaEnvelope, FaPhone, FaVenusMars } from "react-icons/fa";
 import "./styles.css";
 
 const App: React.FC = () => {
@@ -82,74 +83,132 @@ const App: React.FC = () => {
 
   return (
     <div className="container">
-      <h1 className="title">Dynamic Form Builder</h1>
+      <div className="form-box">
+        <h1 className="title">Dynamic Form Builder</h1>
 
-      <div className="button-group">
-        <button onClick={() => addField("text", "Full Name")}>➕ Add Name Field</button>
-        <button onClick={() => addField("email", "Email Address")}>📧 Add Email Field</button>
-        <button onClick={() => addField("number", "Phone Number")}>📞 Add Phone Number</button>
-        <button onClick={() => addField("gender", "Gender")}>⚥ Add Gender</button>
-        {/* <button onClick={addSection}>📂 Add Section</button> */}
-      </div>
+        {/* <div className="button-group">
+          <button onClick={() => addField("text", "Full Name")}>➕ Add Name Field</button>
+          <button onClick={() => addField("email", "Email Address")}>📧 Add Email Field</button>
+          <button onClick={() => addField("number", "Phone Number")}>📞 Add Phone Number</button>
+          <button onClick={() => addField("gender", "Gender")}>⚥ Add Gender</button>
+          {  <button onClick={addSection}>📂 Add Section</button>  }
+        </div> */}
 
-      <form onSubmit={handleSubmit} className="form">
-        {fields.map((field, index) => (
-          <div key={field.id} className="field-container">
-            <DynamicField index={index} field={field} setFields={setFields} />
-            <button type="button" onClick={() => removeField(field.id)} className="remove-btn">❌ Remove</button>
-          </div>
-        ))}
+        <div className="button-group">
+          <button onClick={() => addField("text", "Full Name")}>
+            <FaUser size={20} /> Add Name Field
+          </button>
 
-        {sections.map((section) => (
-          <div key={section.id} className="section-container">
-            <h2>{section.title}</h2>
-            <div className="button-group">
-              <button type="button" onClick={() => addFieldToSection(section.id, "text", "Full Name")}>➕ Add Name</button>
-              <button type="button" onClick={() => addFieldToSection(section.id, "email", "Email Address")}>📧 Add Email</button>
-              <button type="button" onClick={() => addFieldToSection(section.id, "number", "Phone Number")}>📞 Add Phone</button>
-              <button type="button" onClick={() => addFieldToSection(section.id, "gender", "Gender")}>⚥ Add Gender</button>
+          <button onClick={() => addField("email", "Email Address")}>
+            <FaEnvelope size={20} /> Add Email Field
+          </button>
+
+          <button onClick={() => addField("number", "Phone Number")}>
+            <FaPhone size={20} /> Add Phone Number
+          </button>
+
+          <button onClick={() => addField("gender", "Gender")}>
+            <FaVenusMars size={20} /> Add Gender
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="form">
+          {fields.map((field, index) => (
+            <div key={field.id} className="field-container">
+              <DynamicField index={index} field={field} setFields={setFields} />
+              <button type="button" onClick={() => removeField(field.id)} className="remove-btn">❌ Remove</button>
             </div>
-            {section.fields.map((field, index) => (
-              <div key={field.id} className="field-container">
-                <DynamicField index={index} field={field} setFields={() => { }} />
-                <button type="button" onClick={() => removeFieldFromSection(section.id, field.id)} className="remove-btn">❌ Remove</button>
+          ))}
+
+          {sections.map((section) => (
+            <div key={section.id} className="section-container">
+              <h2>{section.title}</h2>
+              <div className="button-group">
+                <button type="button" onClick={() => addFieldToSection(section.id, "text", "Full Name")}>➕ Add Name</button>
+                <button type="button" onClick={() => addFieldToSection(section.id, "email", "Email Address")}>📧 Add Email</button>
+                <button type="button" onClick={() => addFieldToSection(section.id, "number", "Phone Number")}>📞 Add Phone</button>
+                <button type="button" onClick={() => addFieldToSection(section.id, "gender", "Gender")}>⚥ Add Gender</button>
+              </div>
+              {section.fields.map((field, index) => (
+                <div key={field.id} className="field-container">
+                  <DynamicField index={index} field={field} setFields={() => { }} />
+                  <button type="button" onClick={() => removeFieldFromSection(section.id, field.id)} className="remove-btn">❌ Remove</button>
+                </div>
+              ))}
+              <button type="button" onClick={() => removeSection(section.id)} className="remove-btn section-remove">🗑️ Remove Section</button>
+            </div>
+          ))}
+
+          <button type="submit" className="submit-btn">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="white"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3 12l18-9-9 18-2-8-7-1z"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Submit</button>
+        </form>
+
+        {isSubmitted && (
+          <div className="submitted-data">
+            <h2>Form Submission Result</h2>
+
+            {/* Display Fields in Readable Text Format */}
+            {submittedData?.fields.map((field) => (
+              <p key={field.id}>
+                <strong>{field.label}:</strong> {field.value}
+              </p>
+            ))}
+
+            {/* Display Sections and their Fields */}
+            {submittedData?.sections.map((section) => (
+              <div key={section.id}>
+                <h3>{section.title}</h3>
+                {section.fields.map((field) => (
+                  <p key={field.id}>
+                    <strong>{field.label}:</strong> {field.value}
+                  </p>
+                ))}
               </div>
             ))}
-            <button type="button" onClick={() => removeSection(section.id)} className="remove-btn section-remove">🗑️ Remove Section</button>
+
+            {/* Enable Download Button only after submission */}
+            <button onClick={downloadJSON} className="download-btn"> 
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 3v12m0 0l-4-4m4 4l4-4"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M5 15v4h14v-4"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Download JSON</button>
           </div>
-        ))}
-
-        <button type="submit" className="submit-btn">🚀 Submit</button>
-      </form>
-
-      {isSubmitted && (
-        <div className="submitted-data">
-          <h2>Form Submission Result</h2>
-
-          {/* Display Fields in Readable Text Format */}
-          {submittedData?.fields.map((field) => (
-            <p key={field.id}>
-              <strong>{field.label}:</strong> {field.value}
-            </p>
-          ))}
-
-          {/* Display Sections and their Fields */}
-          {submittedData?.sections.map((section) => (
-            <div key={section.id}>
-              <h3>{section.title}</h3>
-              {section.fields.map((field) => (
-                <p key={field.id}>
-                  <strong>{field.label}:</strong> {field.value}
-                </p>
-              ))}
-            </div>
-          ))}
-
-          {/* Enable Download Button only after submission */}
-          <button onClick={downloadJSON} className="download-btn">📥 Download JSON</button>
-        </div>
-      )}
-
+        )}
+      </div>
     </div>
   );
 };
